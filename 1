@@ -1,21 +1,22 @@
 vector<int> d (n, inf),  p (n);
-	d[0] = 0;
-	priority_queue <pair<int, int>, vector <pair <int, int>>, greater<pair <int, int>>> q;
-	q.push({0, 0});
-	while (!q.empty())
+d[0] = 0;
+priority_queue <pair<int, int>, vector <pair <int, int>>, greater<pair <int, int>>> q;
+q.push({0, 0});
+while (!q.empty())
+{
+    int v = q.top().S, cur = q.top().F;
+    q.pop();
+    if (cur > d[v])
+        continue;
+    for (int j = 0; j < int(g[v].size()); ++j)
     {
-		int v = q.top().S, cur = q.top().F;
-		q.pop();
-		if (cur > d[v])  continue;
-		for (int j = 0; j < int(g[v].size()); ++j)
+        int to = g[v][j].F,
+            len = g[v][j].S;
+        if (d[v] + len < d[to])
         {
-			int to = g[v][j].F,
-				len = g[v][j].S;
-			if (d[v] + len < d[to])
-            {
-				d[to] = d[v] + len;
-				p[to] = v;
-				q.push ({d[to], to});
-			}
-		}
-	}
+            d[to] = d[v] + len;
+            p[to] = v;
+            q.push ({d[to], to});
+        }
+    }
+}
